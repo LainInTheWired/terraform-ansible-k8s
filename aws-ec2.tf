@@ -9,7 +9,7 @@ resource "aws_instance" "Master" {
   key_name               = aws_key_pair.key_pair.id
   vpc_security_group_ids = [aws_security_group.sample_sg.id]
   tags = {
-    name = "Master${count.index + 1}"
+    Name = "Master${count.index + 1}"
   }
 }
 #----------------------------------------
@@ -23,7 +23,7 @@ resource "aws_instance" "Worker" {
   key_name               = aws_key_pair.key_pair.id
   vpc_security_group_ids = [aws_security_group.sample_sg.id]
   tags = {
-    name = "Worker${count.index + 1}"
+    Name = "Worker${count.index + 1}"
   }
 }
 #----------------------------------------
