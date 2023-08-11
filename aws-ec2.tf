@@ -27,7 +27,8 @@ resource "aws_instance" "sample_web_server" {
   vpc_security_group_ids = [aws_security_group.sample_sg.id]
   
   provisioner "remote-exec" {
-    inline = ["echo 'Wait until SSH is ready'"]
+    inline = ["sudo yum -y install nginx",
+              "sudo systemclt start nginx"]
 
     connection {
       type        = "ssh"
