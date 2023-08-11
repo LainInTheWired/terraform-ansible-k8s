@@ -37,7 +37,7 @@ resource "aws_instance" "sample_web_server" {
       host        = aws_instance.sample_web_server.public_ip
     }
   }
-  provisioner "local-exec" {
-    command = "ansible-playbook  -i ${aws_instance.sample_web_server.public_ip}, --private-key ${module.aws-keypair.private_key_file} nginx.yaml"
-  }
+  # provisioner "local-exec" {
+  #   command = "ansible-playbook  -i ${aws_instance.sample_web_server.public_ip}, --private-key ${module.aws-keypair.private_key_file} nginx.yaml"
+  # }
 }
