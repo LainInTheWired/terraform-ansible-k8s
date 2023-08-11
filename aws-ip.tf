@@ -1,5 +1,5 @@
 resource "null_resource" "ansible-provision"{
-    depends_on=["aws_instance.Worker","aws_instance_Master"]
+    depends_on=["aws_instance.Worker","aws_instance.Master"]
 
     provisioner "local-exec" {
         command = "echo \"[kube-master]\" >> kubespray/inventory/inventory"
