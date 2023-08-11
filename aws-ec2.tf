@@ -27,8 +27,7 @@ resource "aws_instance" "sample_web_server" {
   vpc_security_group_ids = [aws_security_group.sample_sg.id]
   
   provisioner "remote-exec" {
-    inline = ["sudo yum -y install nginx",
-              "sudo systemclt start nginx"]
+    inline = ["echo 'connect ssh'"]
 
     connection {
       type        = "ssh"
@@ -37,7 +36,7 @@ resource "aws_instance" "sample_web_server" {
       host        = aws_instance.sample_web_server.public_ip
     }
   }
-  # provisioner "local-exec" {
-  #   command = "ansible-playbook  -i ${aws_instance.sample_web_server.public_ip}, --private-key ${module.aws-keypair.private_key_file} nginx.yaml"
-  # }
+  provisioner "local-exec" {
+    command = "ansible-playbook  -i ${aws_instance.sample_web_server.public_ip}, --private-key ${module.aws-keypair.private_key_file} nginx.yaml"
+  }
 }
