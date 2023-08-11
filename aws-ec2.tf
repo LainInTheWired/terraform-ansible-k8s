@@ -37,6 +37,6 @@ resource "aws_instance" "sample_web_server" {
     }
   }
   provisioner "local-exec" {
-    command = "ansible-playbook  -i ${aws_instance.sample_web_server.public_ip}, --private-key ${module.aws-keypair.private_key_file} nginx.yaml"
+    command = "ansible-playbook  -i ${aws_instance.sample_web_server.public_ip}, --private-key .key_pair/terraform.id_rsa nginx.yaml"
   }
 }
