@@ -11,7 +11,7 @@ sudo mv /bin/terraform /usr/bin/
 #openssl
 cd ~/
 cd ../
-sudo curl https://www.openssl.org/source/openssl-1.1.1.tar.gz 
+sudo wget https://www.openssl.org/source/openssl-1.1.1.tar.gz 
 sudo tar xvzf openssl-1.1.1.tar.gz
 cd openssl-1.1.1/
 sudo ./config --prefix=/usr/local/openssl-1.1.1 shared zlib
@@ -32,7 +32,7 @@ cd build/
 export LD_LIBRARY_PATH=/usr/local/openssl-1.1.1/lib:$LD_LIBRARY_PATH
 export CFLAGS="-I/usr/local/openssl-1.1.1/include"
 sudo yum install -y bzip2-devel libbz2-devel libffi-devel
-
 make -j
+sudo ln -s /home/Python-3.10.11/build/python  /usr/local/bin/python
 
-sudo ln -s /home/Python-3.10.11/build/python  python
+
