@@ -29,6 +29,20 @@ resource "aws_instance" "Worker" {
 #----------------------------------------
 # EC2インスタンスの作成
 #----------------------------------------
+resource "aws_instance" "etcd" {
+  count = 3
+  ami                    = "ami-053b0d53c279acc90" # ubuntu22:04
+  instance_type          = "t2.micro"
+  subnet_id              = aws_subnet.sample_subnet.id
+  key_name               = aws_key_pair.key_pair.id
+  vpc_security_group_ids = [aws_security_group.sample_sg.id]
+  tags = {
+    Name = "etcd${count.index + 1}"
+  }
+}
+#----------------------------------------
+# EC2インスタンスの作成
+#----------------------------------------
 # resource "aws_instance" "sample_web_server" {
 #   ami                    = "ami-053b0d53c279acc90" # ubuntu22:04
 #   instance_type          = "t2.micro"
