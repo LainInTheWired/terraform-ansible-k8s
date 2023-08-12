@@ -9,7 +9,7 @@ sudo yum -y install terraform
 sudo mv /bin/terraform /usr/bin/
 
 #openssl
-if [ ! -d /usr/local/openssl-1.1.1/bin/openssl ]; then
+if [ ! -d /home/openssl-1.1.1 ]; then
 
     cd $workdir
     sudo wget https://www.openssl.org/source/openssl-1.1.1.tar.gz 
@@ -19,7 +19,9 @@ if [ ! -d /usr/local/openssl-1.1.1/bin/openssl ]; then
     sudo make depend
     sudo make
     sudo make install
-    ln -s /usr/local/openssl-1.1.1/bin/openssl /usr/local/openssl
+    export LD_LIBRARY_PATH=/usr/local/openssl-1.1.1/lib:$LD_LIBRARY_PATH
+    export CFLAGS="-I/usr/local/openssl-1.1.1/include"
+    sudo ln -s /usr/local/openssl-1.1.1/bin/openssl /usr/local/bin/openssl
 fi
 
 #python3.10.11
