@@ -28,7 +28,11 @@ sudo tar xvf Python-3.10.11.tgz
 cd Python-3.10.11
 mkdir build
 cd build/
-../configure --enable-optimization
+../configure -with-openssl=/usr/local/openssl-1.1.1 --disable-ncurses
 export LD_LIBRARY_PATH=/usr/local/openssl-1.1.1/lib:$LD_LIBRARY_PATH
 export CFLAGS="-I/usr/local/openssl-1.1.1/include"
+sudo yum install -y bzip2-devel libbz2-devel libffi-devel
+
 make -j
+
+sudo ln -s /home/Python-3.10.11/build/python  python
