@@ -33,6 +33,15 @@ export LD_LIBRARY_PATH=/usr/local/openssl-1.1.1/lib:$LD_LIBRARY_PATH
 export CFLAGS="-I/usr/local/openssl-1.1.1/include"
 sudo yum install -y bzip2-devel libbz2-devel libffi-devel
 make -j
-sudo ln -s /home/Python-3.10.11/build/python  /usr/local/bin/python
+sudo ln -s /home/Python-3.10.11/build/python  /usr/local/bin/
+alias python='/usr/local/bin/python'
 
+
+#ansible
+sudo wget https://github.com/ansible/ansible/archive/refs/tags/v2.15.2.zip
+sudo unzip v2.15.2.zip 
+cd ansible-2.15.2/
+source ./hacking/env-setup
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt 
 
