@@ -9,32 +9,37 @@ sudo yum -y install terraform
 sudo mv /bin/terraform /usr/bin/
 
 #openssl
-cd ~/
-cd ../
-sudo wget https://www.openssl.org/source/openssl-1.1.1.tar.gz 
-sudo tar xvzf openssl-1.1.1.tar.gz
-cd openssl-1.1.1/
-sudo ./config --prefix=/usr/local/openssl-1.1.1 shared zlib
-sudo make depend
-sudo make
-sudo make install
-ln -s /usr/local/openssl-1.1.1/bin/openssl /usr/local/openssl
+if[ ! -d /usr/local/openssl-1.1.1/bin/openssl ];then
+    cd ~/
+    cd ../
+    sudo wget https://www.openssl.org/source/openssl-1.1.1.tar.gz 
+    sudo tar xvzf openssl-1.1.1.tar.gz
+    cd openssl-1.1.1/
+    sudo ./config --prefix=/usr/local/openssl-1.1.1 shared zlib
+    sudo make depend
+    sudo make
+    sudo make install
+    ln -s /usr/local/openssl-1.1.1/bin/openssl /usr/local/openssl
+fi
 
 #python3.10.11
-cd ~/
-cd ../
-sudo wget https://www.python.org/ftp/python/3.10.11/Python-3.10.11.tgz
-sudo tar xvf Python-3.10.11.tgz
-cd Python-3.10.11
-mkdir build
-cd build/
-../configure -with-openssl=/usr/local/openssl-1.1.1 --disable-ncurses
-export LD_LIBRARY_PATH=/usr/local/openssl-1.1.1/lib:$LD_LIBRARY_PATH
-export CFLAGS="-I/usr/local/openssl-1.1.1/include"
-sudo yum install -y bzip2-devel libbz2-devel libffi-devel
-make -j
-sudo ln -s /home/Python-3.10.11/build/python  /usr/local/bin/
-alias python='/usr/local/bin/python'
+if[ ! -d /home/Python-3.10.11 ];then
+    cd ~/
+    cd ../
+    sudo wget https://www.python.org/ftp/python/3.10.11/Python-3.10.11.tgz
+    sudo tar xvf Python-3.10.11.tgz
+    cd Python-3.10.11
+    mkdir build
+    cd build/
+    export LD_LIBRARY_PATH=/usr/local/openssl-1.1.1/lib:$LD_LIBRARY_PATH
+    export CFLAGS="-I/usr/local/openssl-1.1.1/include"
+    ../configure -with-openssl=/usr/local/openssl-1.1.1 --disable-ncurses
+
+    sudo yum install -y bzip2-devel libbz2-devel libffi-devel
+    make -j
+    sudo ln -s /home/Python-3.10.11/build/python  /usr/local/bin/
+    alias python='/usr/local/bin/python'
+fi
 
 
 #ansible
