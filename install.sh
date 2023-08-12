@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sudo yum groupinstall "Development Tools”
+sudo yum groupinstall "Development Tools"
 
 #terraform install
 sudo yum install -y yum-utils
