@@ -4,7 +4,7 @@
 resource "aws_instance" "Master" {
   count = 2
   ami                    = "ami-053b0d53c279acc90" # ubuntu22:04
-  instance_type          = "t2.micro"
+  instance_type          = "t3.medium"
   subnet_id              = aws_subnet.sample_subnet.id
   key_name               = aws_key_pair.key_pair.id
   vpc_security_group_ids = [aws_security_group.sample_sg.id]
@@ -18,7 +18,7 @@ resource "aws_instance" "Master" {
 resource "aws_instance" "Worker" {
   count = 3
   ami                    = "ami-053b0d53c279acc90" # ubuntu22:04
-  instance_type          = "t2.micro"
+  instance_type          = "t3.medium"
   subnet_id              = aws_subnet.sample_subnet.id
   key_name               = aws_key_pair.key_pair.id
   vpc_security_group_ids = [aws_security_group.sample_sg.id]
@@ -32,7 +32,7 @@ resource "aws_instance" "Worker" {
 resource "aws_instance" "etcd" {
   count = 3
   ami                    = "ami-053b0d53c279acc90" # ubuntu22:04
-  instance_type          = "t2.micro"
+  instance_type          = "t3.medium"
   subnet_id              = aws_subnet.sample_subnet.id
   key_name               = aws_key_pair.key_pair.id
   vpc_security_group_ids = [aws_security_group.sample_sg.id]
