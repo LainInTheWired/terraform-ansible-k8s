@@ -9,7 +9,8 @@ sudo yum -y install terraform
 sudo mv /bin/terraform /usr/bin/
 
 #openssl
-if[ ! -d /usr/local/openssl-1.1.1/bin/openssl ]; then
+if [ ! -d /usr/local/openssl-1.1.1/bin/openssl ]; then
+
     cd $workdir
     sudo wget https://www.openssl.org/source/openssl-1.1.1.tar.gz 
     sudo tar xvzf openssl-1.1.1.tar.gz
@@ -22,7 +23,7 @@ if[ ! -d /usr/local/openssl-1.1.1/bin/openssl ]; then
 fi
 
 #python3.10.11
-if[ ! -d /home/Python-3.10.11 ]; then
+if [ ! -d /home/Python-3.10.11 ]; then
     cd $workdir
     sudo wget https://www.python.org/ftp/python/3.10.11/Python-3.10.11.tgz
     sudo tar xvf Python-3.10.11.tgz
