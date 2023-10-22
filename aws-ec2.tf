@@ -6,6 +6,7 @@ resource "aws_instance" "Master" {
   ami                    = "ami-053b0d53c279acc90" # ubuntu22:04
   instance_type          = "t3.medium"
   subnet_id              = aws_subnet.sample_subnet.id
+  private_ip            = ["10.0.1.${count.index + 1}"]
   key_name               = aws_key_pair.key_pair.id
   vpc_security_group_ids = [aws_security_group.sample_sg.id]
   tags = {
@@ -20,6 +21,8 @@ resource "aws_instance" "Worker" {
   ami                    = "ami-053b0d53c279acc90" # ubuntu22:04
   instance_type          = "t3.medium"
   subnet_id              = aws_subnet.sample_subnet.id
+    private_ip            = ["10.0.1.1${count.index + 1}"]
+
   key_name               = aws_key_pair.key_pair.id
   vpc_security_group_ids = [aws_security_group.sample_sg.id]
   tags = {
@@ -29,17 +32,17 @@ resource "aws_instance" "Worker" {
 #----------------------------------------
 # EC2インスタンスの作成
 #----------------------------------------
-resource "aws_instance" "etcd" {
-  count = 3
-  ami                    = "ami-053b0d53c279acc90" # ubuntu22:04
-  instance_type          = "t3.medium"
-  subnet_id              = aws_subnet.sample_subnet.id
-  key_name               = aws_key_pair.key_pair.id
-  vpc_security_group_ids = [aws_security_group.sample_sg.id]
-  tags = {
-    Name = "etcd${count.index + 1}"
-  }
-}
+# resource "aws_instance" "etcd" {
+#   count = 3
+#   ami                    = "ami-053b0d53c279acc90" # ubuntu22:04
+#   instance_type          = "t3.medium"
+#   subnet_id              = aws_subnet.sample_subnet.id
+#   key_name               = aws_key_pair.key_pair.id
+#   vpc_security_group_ids = [aws_security_group.sample_sg.id]
+#   tags = {
+#     Name = "etcd${count.index + 1}"
+#   }
+# }
 #----------------------------------------
 # EC2インスタンスの作成
 #----------------------------------------
