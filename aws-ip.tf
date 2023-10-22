@@ -13,7 +13,7 @@ resource "null_resource" "ansible-provision"{
     }
 
      provisioner "local-exec" {
-        command = "echo \"${join("\n",formatlist("%s ansible_ssh_host=%s",aws_instance.etcd.*.tags.Name,aws_instance.etcd.*.public_ip))}\" >> kubespray/inventory/inventory"
+        command = "echo \"${join("\n",formatlist("%s ansible_ssh_host=%s",aws_instance.Master.*.tags.Name,aws_instance.Master.*.public_ip))}\" >> kubespray/inventory/inventory"
     }
 
     provisioner "local-exec" {
