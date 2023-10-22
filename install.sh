@@ -1,5 +1,6 @@
 #!/bin/sh
 workdir="/home"
+kubespray="/home/terraform-ansible-k8s/kubespray"
 sudo yum groupinstall -y "Development Tools"
 
 #terraform install
@@ -7,6 +8,32 @@ sudo yum install -y yum-utils
 sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
 sudo yum -y install terraform
 sudo mv /bin/terraform /usr/bin/
+
+#pyenv install
+cd $workdir
+sudo yum install -y gcc zlib-devel bzip2 bzip2-devel readline readline-devel sqlite sqlite-devel openssl11 openssl11-devel git libffi-devel xz-devel python-backports-lzma
+git clone https://github.com/pyenv/pyenv.git /home/.pyenv
+
+echo 'export PATH="/home/.pyenv/bin:$PATH"' >> ~/.bash_profile
+echo 'eval "$(pyenv init -)"' >> ~/.bash_profile
+source ~/.bash_profile
+
+echo "このインストールは5分くらいかかるので、少し待って"
+pyenv install 3.11.6
+pyenv global 3.11.6
+pyenv rehash
+
+#pyenv
+python -m venv venv
+source venv/bin/activate
+
+#ansible 
+cd $kubespray
+ansible-playbook -i inventory/inventory -u ubuntu -b -v --private-key=/home/terraform-ansible-k8s/.key_pair/terraform.id_rsa cluster.yml
+
+
+
+
 
 #openssl
 # if [ ! -d /home/openssl-1.1.1 ]; then

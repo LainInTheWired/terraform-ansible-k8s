@@ -2,7 +2,7 @@
 # EC2インスタンスの作成
 #----------------------------------------
 resource "aws_instance" "Master" {
-  count = 2
+  count = 3
   ami                    = "ami-053b0d53c279acc90" # ubuntu22:04
   instance_type          = "t3.medium"
   subnet_id              = aws_subnet.sample_subnet.id
