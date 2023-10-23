@@ -61,4 +61,9 @@ resource "aws_security_group" "sample_sg" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  ingress {
+     protocol  = "icmp"
+     from_port = -1
+     to_port   = -1
+  }
 }
