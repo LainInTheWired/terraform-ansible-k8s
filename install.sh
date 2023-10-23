@@ -11,9 +11,9 @@ sudo mv /bin/terraform /usr/bin/
 terraform init
 terraform apply -auto-approve
 
-sudo scp -r  -i  .key_pair/terraform.id_rsa kubespray/ .key_pair/terraform.id_rsa ubuntu@$MASTER1:~/
+# sudo scp -r  -i  .key_pair/terraform.id_rsa kubespray/ .key_pair/terraform.id_rsa ubuntu@$MASTER1:~/
 
-sudo ssh -i .key_pair/terraform.id_rsa kubespray/ ubuntu@$MASTER1 echo "\$nrconf{kernelhints} = '0';\n\$nrconf{restart} = 'a';" | sudo tee /etc/needrestart/conf.d/50local.conf && sudo apt -y upgrade && sudo apt update && sudo apt install -y python3-pip && export PATH=$PATH:/home/ubuntu/.local/bin && cd kubespray/ && pip install -r requirements.txt && export PATH=$PATH:/home/ubuntu/.local/bin && ansible-playbook -i inventory/inventory -u ubuntu -b -v --private-key=~/terraform.id_rsa cluster.yml
+# sudo ssh -i .key_pair/terraform.id_rsa kubespray/ ubuntu@$MASTER1 echo "\$nrconf{kernelhints} = '0';\n\$nrconf{restart} = 'a';" | sudo tee /etc/needrestart/conf.d/50local.conf && sudo apt -y upgrade && sudo apt update && sudo apt install -y python3-pip && export PATH=$PATH:/home/ubuntu/.local/bin && cd kubespray/ && pip install -r requirements.txt && export PATH=$PATH:/home/ubuntu/.local/bin && ansible-playbook -i inventory/inventory -u ubuntu -b -v --private-key=~/terraform.id_rsa cluster.yml
 
 
 # #pyenv install
