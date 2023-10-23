@@ -39,8 +39,7 @@ resource "null_resource" "ansible-provision"{
     command = <<EOT
         sudo ssh -oStrictHostKeyChecking=no -i .key_pair/terraform.id_rsa ubuntu@${aws_instance.Master[0].public_ip} <<EOF
         echo "\$nrconf{kernelhints} = '0';"
-        echo "\$nrconf{restart} = 'a';"
-        | sudo tee /etc/needrestart/conf.d/50local.conf
+        echo "\$nrconf{restart} = 'a';" | sudo tee /etc/needrestart/conf.d/50local.conf
         EOF
         sudo apt -y upgrade
         sudo apt update
