@@ -10,14 +10,14 @@ resource "null_resource" "ansible-provision"{
     }
 
     provisioner "local-exec" {
-        command = "echo \"${join("\n",formatlist("%s ansible_ssh_host=%s",aws_instance.Master.*.tags.Name,aws_instance.Master.*.public_ip))}\" >> kubespray/inventory/inventory"
+        command = "echo \"${join("\n",formatlist("%s ansible_ssh_host=%s ip=%s access_ip=%s",aws_instance.Master.*.tags.Name,aws_instance.Master.*.public_ip,aws_instance.Master.*.public_ip,aws_instance.Master.*.public_ip))}\" >> kubespray/inventory/inventory"
     }
     provisioner "local-exec" {
         command = "echo \"[etcd]\" >> kubespray/inventory/inventory"
     }
 
      provisioner "local-exec" {
-        command = "echo \"${join("\n",formatlist("%s ansible_ssh_host=%s",aws_instance.Master.*.tags.Name,aws_instance.Master.*.public_ip))}\" >> kubespray/inventory/inventory"
+        command = "echo \"${join("\n",formatlist("%s ansible_ssh_host=%s ip=%s access_ip=%s",aws_instance.Master.*.tags.Name,aws_instance.Master.*.public_ip,aws_instance.Master.*.public_ip,aws_instance.Master.*.public_ip))}\" >> kubespray/inventory/inventory"
     }
 
     provisioner "local-exec" {
@@ -25,7 +25,7 @@ resource "null_resource" "ansible-provision"{
     }
 
      provisioner "local-exec" {
-        command = "echo \"${join("\n",formatlist("%s ansible_ssh_host=%s",aws_instance.Worker.*.tags.Name,aws_instance.Worker.*.public_ip))}\" >> kubespray/inventory/inventory"
+        command = "echo \"${join("\n",formatlist("%s ansible_ssh_host=%s ip=%s access_ip=%s",aws_instance.Worker.*.tags.Name,aws_instance.Worker.*.public_ip,aws_instance.Master.*.public_ip,aws_instance.Master.*.public_ip))}\" >> kubespray/inventory/inventory"
     }
     provisioner "local-exec" {
         command =  "echo \"\n[k8s-cluster:children]\nkube-node\nkube-master\" >> kubespray/inventory/inventory"
