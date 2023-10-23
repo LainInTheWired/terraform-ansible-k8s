@@ -11,27 +11,31 @@ sudo mv /bin/terraform /usr/bin/
 terraform init
 terraform apply -auto-approve
 
-#pyenv install
-cd $workdir
-sudo yum install -y gcc zlib-devel bzip2 bzip2-devel readline readline-devel sqlite sqlite-devel openssl11 openssl11-devel git libffi-devel xz-devel python-backports-lzma
-git clone https://github.com/pyenv/pyenv.git /home/.pyenv
+sudo scp -r  -i  .key_pair/terraform.id_rsa kubespray/ .key_pair/terraform.id_rsa ubuntu@$MASTER1:~/
 
-echo 'export PATH="/home/.pyenv/bin:$PATH"' >> ~/.bash_profile
-echo 'eval "$(pyenv init -)"' >> ~/.bash_profile
-source ~/.bash_profile
+sudo ssh -i .key_pair/terraform.id_rsa kubespray/ ubuntu@$MASTER1 sudo sudo apt -y upgrade && apt isntall  update && sudo apt install -y python3-pip && export PATH=$PATH:/home/ubuntu/.local/bin && cd kubespray/ && pip install -r requirements.txt && export PATH=$PATH:/home/ubuntu/.local/bin && ansible-playbook -i inventory/inventory -u ubuntu -b -v --private-key=~/terraform.id_rsa cluster.yml
 
-echo "このインストールは5分くらいかかるので、少し待って"
-pyenv install 3.11.6
-pyenv global 3.11.6
-pyenv rehash
+# #pyenv install
+# cd $workdir
+# sudo yum install -y gcc zlib-devel bzip2 bzip2-devel readline readline-devel sqlite sqlite-devel openssl11 openssl11-devel git libffi-devel xz-devel python-backports-lzma
+# git clone https://github.com/pyenv/pyenv.git /home/.pyenv
 
-#pyenv
-python -m venv venv
-source venv/bin/activate
+# echo 'export PATH="/home/.pyenv/bin:$PATH"' >> ~/.bash_profile
+# echo 'eval "$(pyenv init -)"' >> ~/.bash_profile
+# source ~/.bash_profile
 
-#ansible 
-cd $kubespray
-ansible-playbook -i inventory/inventory -u ubuntu -b -v --private-key=/home/terraform-ansible-k8s/.key_pair/terraform.id_rsa cluster.yml
+# echo "このインストールは5分くらいかかるので、少し待って"
+# pyenv install 3.11.6
+# pyenv global 3.11.6
+# pyenv rehash
+
+# #pyenv
+# python -m venv venv
+# source venv/bin/activate
+
+# #ansible 
+# cd $kubespray
+# ansible-playbook -i inventory/inventory -u ubuntu -b -v --private-key=/home/terraform-ansible-k8s/.key_pair/terraform.id_rsa cluster.yml
 
 
 

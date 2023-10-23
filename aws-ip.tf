@@ -2,6 +2,10 @@ resource "null_resource" "ansible-provision"{
     depends_on=["aws_instance.Worker","aws_instance.Master"]
 
     provisioner "local-exec" {
+        command = "export MASTER1=${aws_instance.Master.*.public_ip}"
+    }
+
+    provisioner "local-exec" {
         command = "echo \"[kube-master]\" >> kubespray/inventory/inventory"
     }
 
