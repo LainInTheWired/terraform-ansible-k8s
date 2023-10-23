@@ -33,24 +33,24 @@ resource "null_resource" "ansible-provision"{
 
     # ssh
     provisioner "local-exec" {
-        command =  "sudo scp -r  -i  .key_pair/terraform.id_rsa kubespray/ .key_pair/terraform.id_rsa ubuntu@${aws_instance.Master[0].public_ip}:~/"
+        command =  "sudo scp -oStrictHostKeyChecking=no -r  -i  .key_pair/terraform.id_rsa kubespray/ .key_pair/terraform.id_rsa ubuntu@${aws_instance.Master[0].public_ip}:~/"
     }
-provisioner "local-exec" {
-  command = <<EOT
-    sudo ssh -i .key_pair/terraform.id_rsa ubuntu@${aws_instance.Master[0].public_ip} <<EOF
-      echo "\$nrconf{kernelhints} = '0';"
-      echo "\$nrconf{restart} = 'a';"
-      | sudo tee /etc/needrestart/conf.d/50local.conf
-    EOF
-    sudo apt -y upgrade
-    sudo apt update
-    sudo apt install -y python3-pip
-    export PATH=\$PATH:/home/ubuntu/.local/bin
-    cd kubespray/
-    pip install -r requirements.txt
-    export PATH=\$PATH:/home/ubuntu/.local/bin
-    ansible-playbook -i inventory/inventory -u ubuntu -b -v --private-key=~/terraform.id_rsa cluster.yml
-  EOT
-}
+    provisioner "local-exec" {
+    command = <<EOT
+        sudo ssh -oStrictHostKeyChecking=no -i .key_pair/terraform.id_rsa ubuntu@${aws_instance.Master[0].public_ip} <<EOF
+        echo "\$nrconf{kernelhints} = '0';"
+        echo "\$nrconf{restart} = 'a';"
+        | sudo tee /etc/needrestart/conf.d/50local.conf
+        EOF
+        sudo apt -y upgrade
+        sudo apt update
+        sudo apt install -y python3-pip
+        export PATH=\$PATH:/home/ubuntu/.local/bin
+        cd kubespray/
+        pip install -r requirements.txt
+        export PATH=\$PATH:/home/ubuntu/.local/bin
+        ansible-playbook -i inventory/inventory -u ubuntu -b -v --private-key=~/terraform.id_rsa cluster.yml
+    EOT
+    }
     
 }
