@@ -32,7 +32,7 @@ resource "null_resource" "ansible-provision"{
 
     # ssh
     provisioner "local-exec" {
-        command =  "sudo scp -oStrictHostKeyChecking=no -r  -i  .key_pair/terraform.id_rsa kubespray/ .key_pair/terraform.id_rsa ubuntu@${aws_instance.Master[0].public_ip}:~/"
+        command =  "tar -czvf kubespray.tar.gz kubespray && sudo scp -oStrictHostKeyChecking=no   -i  .key_pair/terraform.id_rsa kubespray.tar.gz .key_pair/terraform.id_rsa ubuntu@${aws_instance.Master[0].public_ip}:~/"
     }
     provisioner "local-exec" {
     command = <<EOT
@@ -40,6 +40,7 @@ resource "null_resource" "ansible-provision"{
         echo "\$nrconf{kernelhints} = '0';"
         echo "\$nrconf{restart} = 'a';" | sudo tee /etc/needrestart/conf.d/50local.conf
         EOF
+        tar -xzvf /path/to/destination/kubespray.tar.gz
         sudo apt -y upgrade
         sudo apt update
         sudo apt install -y python3-pip
@@ -47,7 +48,7 @@ resource "null_resource" "ansible-provision"{
         cd kubespray/
         pip install -r requirements.txt
         export PATH=\$PATH:/home/ubuntu/.local/bin
-        ansible-playbook -i inventory/inventory -u ubuntu -b -v --private-key=~/terraform.id_rsa cluster.yml
+        ansible-playbook -i inventory/my-cluster/inventory.ini -u ubuntu -b -v --private-key=~/terraform.id_rsa cluster.yml
     EOT
     }
     
