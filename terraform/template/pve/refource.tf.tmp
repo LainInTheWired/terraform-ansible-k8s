@@ -1,0 +1,84 @@
+# resource "proxmox_vm_qemu" "k8s-claster" {
+#     name = "k8s-master01"
+#     desc = "Ubuntu 20.04 dev env"
+
+#     target_node = "PVE02"
+
+#     clone   = "kimu-ubuntu2004"
+#     full_clone = true
+#     cores    = 2
+#     sockets  = 1
+#     agent   = 1
+#     cpu      = "kvm64"
+#     # 内存
+#     memory   = 2048
+#     scsihw   = "virtio-scsi-single"
+#     bootdisk = "scsi0"
+
+#     disk {
+#         slot     = 0
+#         size     = "20G"
+#         type     = "scsi"
+#         storage  = "ceph"
+#         iothread = 1
+#     }
+
+#     network {
+#         model  = "virtio"
+#         bridge = "vmbr0"
+#     }
+
+#     ipconfig0 = "ip=10.0.1.50/16,gw=10.0.1.1"
+#     ciuser  = "nowherman"
+#     cipassword = "123qwecc"
+#     sshkeys = <<EOF
+#         ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDm2l3E3a43hRvmCc1KCf69AekpQ8N5I/mX9TA2rLqf65O/EO4mG2AxQpR1DAIzLdfy2VavclBbgTUfohRddCaUSD6rkfnVjoQ9mZ0aYTKWHWfT7YDXsZHvCm9cmjkqIdYwQgHjlNorl2mb3XbKLvOlhp2xNZcUR91qKW62nzAPZ8Nw/q/ViuFfAGnLSaZ755rptY8FaeXmvoVq6tfNW0T4u7t7NhEwkX8PFkOCEIM2lt75nZHFuBWvM1cPbA5tgX9dwjAt7fFC3IdQCDph8an1Rp4UQpuqJNNp3orwfGfEcppfYgB7Ru8Yz2KeaAD/Zoa93m26RF3e9zXdXtsCjfl41cNbPvmIwrVDnzGwlkNiuKnhRcOo5kbGbUGsdchlZhbqSzRcr76jUBOqM3t5P9Ff0Xbt8XQMKpo6hDjgE6B3vgFmbEpmof70BtjnkZ7DsrCCDKNsbYuh3jNthUyb7GHTc4k4Cd1WDbWkmH6IvmaM5nGhZpZaUuuL3G9WJKYFhkjkGWrjETXGWYE64LHCcr9B0t+89XH2DjD273LubSCfWWtxQwlrJ9c1XPL3bCd9iNpYy03Jx48m5y4Y8C6dwQEOy2cFktegDwBfgbYpvOPhPi89jtuehl8dsk0QIvqN85ikS9AWi6XMKFJ9FWN9XbOcnX69RxsxKaNMJWMIRkzHsw== nowhereman@M2PROMacBook-Pro.local
+#     EOF
+
+# }
+resource "proxmox_vm_qemu" "K8s-Worker03" {
+  name  = "K8s-Master01"
+  desc  = "Ubuntu develop environment"
+
+  target_node = "PVE02"
+
+  clone   = "kimu-ubuntu2004"
+  full_clone = true
+  # 关机 guest agent
+  agent   = 1
+  os_type = "cloud-init"
+  onboot  = true
+  # CPU
+  cores    = 2
+  sockets  = 1
+  cpu      = "kvm64"
+  # 内存
+  memory   = 2048
+  scsihw   = "virtio-scsi-single"
+  bootdisk = "scsi0"
+
+  # 硬盘设置，因计算的方式 101580M 代替 100G
+  disk {
+    slot     = 0
+    size     = "8G"
+    type     = "scsi"
+    storage  = "ceph"
+    iothread = 1
+  }
+
+  # 网络
+  network {
+    model  = "virtio"
+    bridge = "vmbr0"
+  }
+
+  # 记住这里要使用IP CIDR。因为只创建一个虚拟机，虚拟机的 IP 是 192.168.1.91。如果要创建多个虚拟机的话，IP 将会是 .91、.92、.93 。
+  ipconfig0 = "ip=10.0.1.50/24,gw=10.0.1.1"
+
+  # 用户名和 SSH key
+  ciuser  = "user"
+  cipassword = "ecc"
+  sshkeys = <<EOF
+    ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDm2l3E3a43hRvmCc1KCf69AekpQ8N5I/mX9TA2rLqf65O/EO4mG2AxQpR1DAIzLdfy2VavclBbgTUfohRddCaUSD6rkfnVjoQ9mZ0aYTKWHWfT7YDXsZHvCm9cmjkqIdYwQgHjlNorl2mb3XbKLvOlhp2xNZcUR91qKW62nzAPZ8Nw/q/ViuFfAGnLSaZ755rptY8FaeXmvoVq6tfNW0T4u7t7NhEwkX8PFkOCEIM2lt75nZHFuBWvM1cPbA5tgX9dwjAt7fFC3IdQCDph8an1Rp4UQpuqJNNp3orwfGfEcppfYgB7Ru8Yz2KeaAD/Zoa93m26RF3e9zXdXtsCjfl41cNbPvmIwrVDnzGwlkNiuKnhRcOo5kbGbUGsdchlZhbqSzRcr76jUBOqM3t5P9Ff0Xbt8XQMKpo6hDjgE6B3vgFmbEpmof70BtjnkZ7DsrCCDKNsbYuh3jNthUyb7GHTc4k4Cd1WDbWkmH6IvmaM5nGhZpZaUuuL3G9WJKYFhkjkGWrjETXGWYE64LHCcr9B0t+89XH2DjD273LubSCfWWtxQwlrJ9c1XPL3bCd9iNpYy03Jx48m5y4Y8C6dwQEOy2cFktegDwBfgbYpvOPhPi89jtuehl8dsk0QIvqN85ikS9AWi6XMKFJ9FWN9XbOcnX69RxsxKaNMJWMIRkzHsw== nowhereman@M2PROMacBook-Pro.local
+  EOF
+}

@@ -1,0 +1,8 @@
+terraform/template/pve/resoruce.tf
+.ansible
+.ssh
+.cash
+kubespray-venv
+.bash_history
+.viminfo
+.terraform.d
