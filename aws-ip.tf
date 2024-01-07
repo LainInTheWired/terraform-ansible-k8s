@@ -37,7 +37,7 @@ resource "null_resource" "ansible-provision" {
 
     # Compress and copy the Kubespray directory to the master node
     provisioner "local-exec" {
-        command = "tar -czvf kubespray.tar.gz -C kubespray . && scp -o StrictHostKeyChecking=no -i .key_pair/terraform.id_rsa kubespray.tar.gz ubuntu@${aws_instance.Master[0].public_ip}:~/"
+        command = "tar -czvf kubespray.tar.gz -C kubespray . && scp -o StrictHostKeyChecking=no -i .key_pair/terraform.id_rsa .key_pair/terraform.id_rsa  kubespray.tar.gz ubuntu@${aws_instance.Master[0].public_ip}:~/"
     }
 
     # SSH into the master node and run the setup commands
