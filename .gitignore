@@ -6,3 +6,5 @@ kubespray-venv
 .bash_history
 .viminfo
 .terraform.d
+*/kubespray-venv
+*/.terraform
