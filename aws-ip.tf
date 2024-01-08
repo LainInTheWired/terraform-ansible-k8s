@@ -40,7 +40,7 @@ resource "null_resource" "ansible-provision"{
         echo "\$nrconf{kernelhints} = '0';"
         echo "\$nrconf{restart} = 'a';" | sudo tee /etc/needrestart/conf.d/50local.conf
         EOF
-        tar -xzvf /path/to/destination/kubespray.tar.gz
+        tar -xzvf ~/kubespray.tar.gz
         sudo apt -y upgrade
         sudo apt update
         sudo apt install -y python3-pip
